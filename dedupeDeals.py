@@ -31,17 +31,21 @@ def get_deals(account_name, headers, endpoint, limit, offset, filter_string):
 
 #get all the deals
 all_deals = get_deals(account_name, headers, 'deals', 100, 0, '')
+
 #grab all the unique contact ids from the deals
 contact_ids = {s['contact'] for s in all_deals}
+
 #for all the contact_ids, put the deals with matching contact ids in a list in matches
 matches = []
 for id in contact_ids:
     matches.append([deal for deal in all_deals if deal['contact'] == id])
+
 #if there are only two matches with the same contact id, these are probably duplicates
 probable_dupes = [match for match in matches if len(match) == 2]
+
 #for each of the probable duplicates, if they have the same title, owner, and value, grab the deal with the higher id and delete it
 for match in probable_dupes:
     if match[0]['title'] == match[1]['title'] and match[0]['owner'] == match[1]['owner'] and match[0]['value'] == match[1]['value']:
         higher_id = max(int(match[0]['id']), int(match[1]['id']))
         print('should delete deal id: {0}'.format(higher_id))
-        # delete_from_api(account_name, headers, deals, higher_id)
+        delete_from_api(account_name, headers, 'deals', higher_id)
