@@ -1,8 +1,8 @@
 import requests
 import json
 
-account_name = ''
-api_key = ''
+account_name = 'psmith'
+api_key = '577df86dc8fbbf8e5128151084eeb15e472238919761d95bfbc6993da0b62e7c3263da19'
 headers = {'Content-Type': 'application/json', 'Api-Token': api_key}
 
 def get_values_from_api(account_name, headers, endpoint, limit, offset, filter_string):
@@ -31,6 +31,10 @@ def get_deals(account_name, headers, endpoint, limit, offset, filter_string):
 
 #get all the deals
 all_deals = get_deals(account_name, headers, 'deals', 100, 0, '')
+
+#write all deals to a local json file for backup if necessary
+with open('{0}.json'.format(account_name), 'w') as outfile:
+    json.dump(all_deals, outfile)
 
 #grab all the unique contact ids from the deals
 contact_ids = {s['contact'] for s in all_deals}
