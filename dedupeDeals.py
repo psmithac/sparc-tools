@@ -1,8 +1,8 @@
 import requests
 import json
 
-account_name = 'psmith'
-api_key = '577df86dc8fbbf8e5128151084eeb15e472238919761d95bfbc6993da0b62e7c3263da19'
+account_name = ''
+api_key = ''
 headers = {'Content-Type': 'application/json', 'Api-Token': api_key}
 
 def get_values_from_api(account_name, headers, endpoint, limit, offset, filter_string):
