@@ -19,13 +19,13 @@ def delete_from_api(account_name, headers, endpoint, id):
 def get_deals(account_name, headers, endpoint, limit, offset, filter_string):
     all_deals = []
     first_page = get_values_from_api(account_name, headers, endpoint, limit, offset, filter_string).json()
-    all_deals.extend(list(map(lambda x: x, first_page['deals'])))
+    all_deals.extend(first_page['deals'])
     print(len(all_deals))
     #page through results and add to all_deals until we have all the deals
     while len(all_deals) != int(first_page['meta']['total']):
         offset = offset + limit
         page = get_values_from_api(account_name, headers, endpoint, limit, offset, filter_string).json()
-        all_deals.extend(list(map(lambda x: x, page['deals'])))
+        all_deals.extend(page['deals'])
         print(len(all_deals))
     return all_deals
 
